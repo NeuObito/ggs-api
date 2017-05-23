@@ -78,7 +78,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.username
 
     class Meta:
-        db_table = 'ggsuer'
+        db_table = 'ggsuser'
 
 
 class EducationExperience(models.Model):
@@ -101,7 +101,7 @@ class EducationExperience(models.Model):
 
 class WorkExperience(models.Model):
     """
-        用户教育经历。
+        用户工作经历。
     """
     gguser = models.ForeignKey(User)
     # company_id = models.CharField(_('公司编号'), max_length=10)
