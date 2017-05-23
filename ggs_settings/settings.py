@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'ggs_api.urls'
+ROOT_URLCONF = 'ggs_settings.urls'
 
 TEMPLATES = [
     {
@@ -68,7 +68,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'ggs_api.wsgi.application'
+WSGI_APPLICATION = 'ggs_settings.wsgi.application'
 
 
 # Database
@@ -76,12 +76,12 @@ WSGI_APPLICATION = 'ggs_api.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'ggs',
-        'USER': 'root',
+        'USER': 'xuejun',
         'PASSWORD': 'xuejun',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
-        'PORT': '3306',
+        'PORT': '5432',
     }
 }
 
