@@ -44,7 +44,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -76,12 +76,12 @@ WSGI_APPLICATION = 'ggs_settings.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'ggs',
-        'USER': 'xuejun',
+        'USER': 'root',
         'PASSWORD': 'xuejun',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
-        'PORT': '5432',
+        'PORT': '3306',
     }
 }
 
