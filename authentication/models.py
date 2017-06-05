@@ -1,13 +1,15 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 from __future__ import unicode_literals
-__author__ = 'nabito'
+
 
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser, PermissionsMixin
 )
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+
+__author__ = 'nabito'
 
 
 class GGSUserManager(BaseUserManager):
@@ -19,11 +21,11 @@ class GGSUserManager(BaseUserManager):
             raise ValueError("请输入邮箱或者手机号！")
 
         user = self.model(
-            username = username,
-            email = GGSUserManager.normalize_email(email),
-            is_staff = False,
-            is_active = True,
-            is_superuser = False,
+            username=username,
+            email=GGSUserManager.normalize_email(email),
+            is_staff=False,
+            is_active=True,
+            is_superuser=False,
             **extra_fields
         )
         user.set_password(password)

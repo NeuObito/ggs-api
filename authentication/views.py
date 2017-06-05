@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 from __future__ import unicode_literals
-__author__ = "nabito"
 
 from django.contrib.auth import login, logout
 from django.views.generic import View
@@ -12,6 +11,8 @@ from django.http import HttpResponse
 from .models import User
 from .forms import LoginForm, RegisterForm
 
+__author__ = "nabito"
+
 
 class RegisterView(View):
     """
@@ -19,6 +20,7 @@ class RegisterView(View):
     """
     def post(self, request):
         form = RegisterForm(request.POST)
+        print(form)
         if form.is_valid():
             form.register()
         return HttpResponse("Hello World!")
