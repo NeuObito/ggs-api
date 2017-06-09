@@ -5,7 +5,8 @@ from __future__ import unicode_literals
 
 from django import forms
 from django.contrib.auth import authenticate
-from django.utils.encoding import python_2_unicode_compatible
+from django.core.exceptions import ObjectDoesNotExist
+from django.db import DatabaseError
 
 from .models import User
 
@@ -19,36 +20,43 @@ class RegisterForm(forms.ModelForm):
     """
     email = forms.EmailField(required=True)
     password = forms.CharField(required=True)
-    confirm_password = forms.CharField(required=True)
+    confirmpassword = forms.CharField(required=True)
 
     def register(self):
 
         email = self.cleaned_data['email']
         password = self.cleaned_data['password']
-        confirm_password = self.cleaned_data['confirm_password']
+        confirmpassword = self.cleaned_data['confirmpassword']
 
-        if password == confirm_password:
+        if password == confirmpassword:
             try:
-                user = User.objects.create(email=email, password=password)
+                User.objects.create(email=email, password=password)
                 return True
-            except:
-                return False
+            except ObjectDoesNotExist as odne:
+                raise ObjectDoesNotExist(odne)
+            except DatabaseError as de:
+                raise DatabaseError(de)
 
     class Meta:
         model = User
-        fields = ['email', 'password', 'confirm_password']
+        fields = ['email', 'password', 'confirmpassword']
 
 
 class LoginForm(forms.ModelForm):
     """
         用于登录的表单。
     """
-    email = forms.CharField(required=True)
+    username = forms.CharField(required=True)
     password = forms.CharField(required=True)
 
     def login(self):
-        user = User.objects.get(email=self.cleaned_data['email'])
-        if user.check_password(self.cleaned_data['password']):
-            return user
+        email = self.cleaned_data['username']
+        password = self.cleaned_data['password']
+        if authenticate(email=email, password=password):
+            return User.objects.get(email=email)
         else:
             return None
+
+    class Meta:
+        model = User
+        fields = ['username', 'password']
