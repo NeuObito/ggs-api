@@ -20,7 +20,6 @@ class RegisterView(View):
     """
     def post(self, request):
         form = RegisterForm(request.POST)
-        print(form)
         if form.is_valid():
             form.register()
         return HttpResponse("Hello World!")
@@ -30,6 +29,9 @@ class LoginView(View):
     """
         实现登录功能。
     """
-    def get(self, request):
+    def post(self, request):
+        form = LoginForm(request.POST)
         print("===========")
+        if form.is_valid():
+            form.login()
         return HttpResponse("Hello World!")
