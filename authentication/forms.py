@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 
 from django import forms
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import DatabaseError
 
@@ -46,17 +46,18 @@ class LoginForm(forms.ModelForm):
     """
         用于登录的表单。
     """
-    username = forms.CharField(required=True)
+    email = forms.EmailField(required=True)
     password = forms.CharField(required=True)
 
     def login(self):
-        email = self.cleaned_data['username']
+        email = self.cleaned_data['email']
         password = self.cleaned_data['password']
         if authenticate(email=email, password=password):
+            print("--------")
             return User.objects.get(email=email)
         else:
             return None
 
     class Meta:
         model = User
-        fields = ['username', 'password']
+        fields = ['email', 'password']
