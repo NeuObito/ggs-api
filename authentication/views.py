@@ -39,7 +39,20 @@ class LoginView(View):
     """
     def post(self, request):
         form = LoginForm(request.POST)
-        print("===========")
+        print(form)
         if form.is_valid():
-            form.login()
-        return JsonResponse("Hello World!")
+            user = form.login()
+            print(user)
+            if user:
+                login(request, user)
+                return JsonResponse({"msg": "登录成功", "succode": 20001})
+
+        return JsonResponse({"msg": "登录失败", "errcode": 10001})
+
+    def options(self, request):
+        response = HttpResponse()
+        response['Access-Control-Allow-Headers'] = "accept, content-type"
+        response['Access-Control-Allow-Method'] = "POST"
+        response['Access-Control-Allow-Origin'] = "*"
+
+        return HttpResponse(response, content_type="application/json")
