@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 
 from django import forms
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import AuthenticationForm
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import DatabaseError
 
@@ -30,7 +31,7 @@ class RegisterForm(forms.ModelForm):
 
         if password == confirmpassword:
             try:
-                User.objects.create(email=email, password=password)
+                User.objects.create_user(email=email, password=password)
                 return True
             except ObjectDoesNotExist as odne:
                 raise ObjectDoesNotExist(odne)
@@ -42,7 +43,7 @@ class RegisterForm(forms.ModelForm):
         fields = ['email', 'password', 'confirmpassword']
 
 
-class LoginForm(forms.ModelForm):
+class LoginForm(forms.Form):
     """
         用于登录的表单。
     """
@@ -52,6 +53,8 @@ class LoginForm(forms.ModelForm):
     def login(self):
         email = self.cleaned_data['email']
         password = self.cleaned_data['password']
+        user = User.objects.filter(email=email, password=password)
+
         if authenticate(email=email, password=password):
             print("--------")
             return User.objects.get(email=email)
