@@ -16,12 +16,11 @@ class GGSUserManager(BaseUserManager):
     """
         用户管理类。
     """
-    def create_user(self, username, email, password, **extra_fields):
+    def create_user(self, email, password, **extra_fields):
         if not email:
             raise ValueError("请输入邮箱或者手机号！")
 
         user = self.model(
-            username=username,
             email=GGSUserManager.normalize_email(email),
             is_staff=False,
             is_active=True,
@@ -67,7 +66,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(_('是否可用'), default=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ("username",)
+    REQUIRED_FIELDS = ("username", "password",)
     objects = GGSUserManager()  # 在这里关联自定义的UserManager
 
     def get_full_name(self):
@@ -77,7 +76,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.username
 
     def __str__(self):
-        return self.username
+        return self.email
 
     class Meta:
         db_table = 'ggsuser'
