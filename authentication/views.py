@@ -38,8 +38,9 @@ class LoginView(View):
         实现登录功能。
     """
     def post(self, request):
+        print(request)
+        print(request.session)
         form = LoginForm(request.POST)
-        print(form)
         if form.is_valid():
             user = form.login()
             print(user)
