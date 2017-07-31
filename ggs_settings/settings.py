@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+import djcelery
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -27,7 +28,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    'djcelery',
     'authentication.apps.AuthenticationConfig',
 ]
 
@@ -63,6 +64,16 @@ CORS_ALLOW_METHODS = (
     'PATCH',
     'POST',
     'PUT',
+)
+
+djcelery.setup_loader()
+# Broker
+BROKER_URL = "redis://127.0.0.1:6379/0"
+BROKER_TRANSPORT = 'redis'
+CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/0"
+
+CELERY_IMPORTS = (
+    'authentication.tasks',
 )
 
 ROOT_URLCONF = 'ggs_settings.urls'
